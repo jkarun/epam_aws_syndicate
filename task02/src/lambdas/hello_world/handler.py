@@ -22,11 +22,17 @@ class HelloWorld(AbstractLambda):
         if path == '/hello' and method == 'GET':
             return {
                 "statusCode": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
                 "message": "Hello from Lambda"
             }
         else:
             return {
                 "statusCode": 400,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
                 "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
             }
 
