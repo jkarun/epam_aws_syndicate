@@ -13,15 +13,23 @@ class HelloWorld(AbstractLambda):
         """
         Explain incoming event here
         """
-        _LOG.info('Lambda Event: ')
         _LOG.info(event)
-        _LOG.info(context)
+        path = event['rawPath']
+        method = event['requestContext']['http']['method']
+        _LOG.info(f'path: {path}')
+        _LOG.info(f'method: {method}')
 
-        return {
-            "statusCode": 200,
-            "message": "Hello from Lambda"
-        }
-    
+        if path == '/hello' and method == 'GET':
+            return {
+                "statusCode": 200,
+                "message": "Hello from Lambda"
+            }
+        else:
+            return {
+                "statusCode": 400,
+                "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
+            }
+
 
 HANDLER = HelloWorld()
 
