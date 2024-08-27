@@ -6,6 +6,9 @@ class TestSuccess(HelloWorldLambdaTestCase):
     def test_success(self):
         response = {
             "statusCode": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
             "message": "Hello from Lambda"
         }
         sample_lambda_event = {'version': '2.0', 'routeKey': '$default', 'rawPath': '/hello', 'rawQueryString': '',
@@ -35,6 +38,9 @@ class TestSuccess(HelloWorldLambdaTestCase):
         method = 'GET'
         response = {
             "statusCode": 400,
+            "headers": {
+                "Content-Type": "application/json"
+            },
             "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
         }
         sample_lambda_event = {'version': '2.0', 'routeKey': '$default', 'rawPath': path, 'rawQueryString': '',
