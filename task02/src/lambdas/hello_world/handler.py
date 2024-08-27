@@ -14,8 +14,8 @@ class HelloWorld(AbstractLambda):
         Explain incoming event here
         """
         _LOG.info(event)
-        path = event['rawPath']
-        method = event['requestContext']['http']['method']
+        path = event.get('rawPath', '')
+        method = event.get('requestContext', {}).get('http', {}).get('method', '')
         _LOG.info(f'path: {path}')
         _LOG.info(f'method: {method}')
 
