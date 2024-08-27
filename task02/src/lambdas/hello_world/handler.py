@@ -13,6 +13,10 @@ class HelloWorld(AbstractLambda):
         """
         Explain incoming event here
         """
+        _LOG.info('Lambda Event: ')
+        _LOG.info(event)
+        _LOG.info(context)
+
         return {
             "statusCode": 200,
             "message": "Hello from Lambda"
