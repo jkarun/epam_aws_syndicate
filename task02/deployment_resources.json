@@ -20,20 +20,6 @@
           ],
           "Effect": "Allow",
           "Resource": "*"
-        },
-        {
-          "Effect": "Allow",
-          "Principal": "*",
-          "Action": [
-            "lambda:InvokeFunctionUrl",
-            "lambda:AddPermission"
-          ],
-          "Resource": "arn:aws:lambda:eu-central-1:905418349556:function:cmtr-134cb1e3-hello_world",
-          "Condition": {
-            "StringEquals": {
-              "lambda:FunctionUrlAuthType": "NONE"
-            }
-          }
         }
       ],
       "Version": "2012-10-17"
