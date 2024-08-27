@@ -1,5 +1,6 @@
 from commons.log_helper import get_logger
 from commons.abstract_lambda import AbstractLambda
+import json
 
 _LOG = get_logger('HelloWorld-handler')
 
@@ -20,21 +21,32 @@ class HelloWorld(AbstractLambda):
         _LOG.info(f'method: {method}')
 
         if path == '/hello' and method == 'GET':
-            return {
+            response = {
                 "statusCode": 200,
                 "headers": {
                     "Content-Type": "application/json"
                 },
-                "message": "Hello from Lambda"
+                "body": json.dumps({
+                    "statusCode": 200,
+                    "message": "Hello from Lambda"})
             }
+            _LOG.info('response:')
+            _LOG.info(response)
+            return response
         else:
-            return {
+            response = {
                 "statusCode": 400,
                 "headers": {
                     "Content-Type": "application/json"
                 },
-                "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
+                "body": json.dumps({
+                    "statusCode": 400,
+                    "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
+                })
             }
+            _LOG.info('response:')
+            _LOG.info(response)
+            return response
 
 
 HANDLER = HelloWorld()

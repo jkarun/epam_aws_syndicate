@@ -1,4 +1,5 @@
 from tests.test_hello_world import HelloWorldLambdaTestCase
+import json
 
 
 class TestSuccess(HelloWorldLambdaTestCase):
@@ -9,7 +10,9 @@ class TestSuccess(HelloWorldLambdaTestCase):
             "headers": {
                 "Content-Type": "application/json"
             },
-            "message": "Hello from Lambda"
+            "body": json.dumps({
+                "statusCode": 200,
+                "message": "Hello from Lambda"})
         }
         sample_lambda_event = {'version': '2.0', 'routeKey': '$default', 'rawPath': '/hello', 'rawQueryString': '',
                                'headers': {'x-real-ip': '103.98.209.92',
@@ -41,7 +44,10 @@ class TestSuccess(HelloWorldLambdaTestCase):
             "headers": {
                 "Content-Type": "application/json"
             },
-            "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
+            "body": json.dumps({
+                "statusCode": 400,
+                "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
+            })
         }
         sample_lambda_event = {'version': '2.0', 'routeKey': '$default', 'rawPath': path, 'rawQueryString': '',
                                'headers': {'x-real-ip': '103.98.209.92',
