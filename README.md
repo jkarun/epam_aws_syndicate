@@ -7,7 +7,6 @@ user name: `jkarun`
 
 git path: `https://jkarun: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@github.com/jkarun/epam_aws_syndicate.git `
 
-
 ## setup process:
 1. Setup project & navigate to newly created project folder in cmd
    ```syndicate generate project --name task02```
