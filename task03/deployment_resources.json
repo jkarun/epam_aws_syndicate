@@ -33,6 +33,7 @@
         "enable_cors": true,
         "integration_type": "http",
         "authorization_type":" AWS_IAM",
+        "method_request_parameters": {},
         "GET": {
           "responses": [
             {
