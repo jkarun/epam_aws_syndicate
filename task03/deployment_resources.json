@@ -31,9 +31,6 @@
     "resources": {
       "/hello": {
         "enable_cors": true,
-        "integration_type": "http",
-        "authorization_type": " AWS_IAM",
-        "method_request_parameters": {},
         "GET": {
           "authorization_type": "AWS_IAM",
           "integration_type": "http",
