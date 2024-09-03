@@ -31,6 +31,7 @@
     "resources": {
       "/hello": {
         "enable_cors": true,
+        "integration_type": "http",
         "GET": {
           "responses": [
             {
@@ -41,6 +42,7 @@
             }
           ]
         }
+
       }
     },
     "minimum_compression_size": 0
