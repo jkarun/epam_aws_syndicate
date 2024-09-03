@@ -2,10 +2,10 @@ from commons.log_helper import get_logger
 from commons.abstract_lambda import AbstractLambda
 import json
 
-_LOG = get_logger('Task03Lambda-handler')
+_LOG = get_logger('HelloWorld-handler')
 
 
-class Task03Lambda(AbstractLambda):
+class HelloWorld(AbstractLambda):
 
     def validate_request(self, event) -> dict:
         pass
@@ -33,9 +33,23 @@ class Task03Lambda(AbstractLambda):
             _LOG.info('response:')
             _LOG.info(response)
             return response
-    
+        else:
+            response = {
+                "statusCode": 400,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": json.dumps({
+                    "statusCode": 400,
+                    "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
+                })
+            }
+            _LOG.info('response:')
+            _LOG.info(response)
+            return response
 
-HANDLER = Task03Lambda()
+
+HANDLER = HelloWorld()
 
 
 def lambda_handler(event, context):
