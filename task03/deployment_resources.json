@@ -23,5 +23,26 @@
       "Version": "2012-10-17"
     },
     "resource_type": "iam_policy"
+  },
+  "task3_api": {
+    "resource_type": "api_gateway",
+    "deploy_stage": "api",
+    "dependencies": [],
+    "resources": {
+      "/hello": {
+        "enable_cors": true,
+        "GET": {
+          "responses": [
+            {
+              "status_code": "200",
+              "response_models": {
+                "message": "Hello from Lambda"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "minimum_compression_size": 0
   }
 }
