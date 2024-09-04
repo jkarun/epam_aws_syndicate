@@ -27,12 +27,7 @@
   "task3_api": {
     "resource_type": "api_gateway",
     "deploy_stage": "api",
-    "dependencies": [
-        {
-            "resource_name": "cmtr-134cb1e3-hello_world",
-            "resource_type": "lambda"
-        }
-    ],
+    "dependencies": [],
     "resources": {
       "/hello": {
         "enable_cors": true,
