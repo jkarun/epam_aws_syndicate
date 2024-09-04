@@ -13,6 +13,10 @@ class TestSuccess(HelloWorldLambdaTestCase):
                 "statusCode": 200,
                 "message": "Hello from Lambda"})
         }
+        response = {
+            "statusCode": 200,
+            "message": "Hello from Lambda"
+        }
         sample_lambda_event = {'version': '2.0', 'routeKey': '$default', 'rawPath': '/hello', 'rawQueryString': '',
                                'headers': {'x-real-ip': '103.98.209.92',
                                            'x-amzn-tls-cipher-suite': 'TLS_AES_128_GCM_SHA256',
