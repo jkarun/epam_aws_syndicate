@@ -32,7 +32,7 @@
       "/hello": {
         "enable_cors": true,
         "GET": {
-          "authorization_type": "AWS_IAM",
+          "authorization_type":"CUSTOM",
           "integration_type": "lambda",
           "lambda_name": "cmtr-134cb1e3-hello_world",
           "api_key_required": false,
