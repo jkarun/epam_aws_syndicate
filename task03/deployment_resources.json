@@ -46,7 +46,12 @@
               "message": "method.response.body.message"
             }
           ],
-          "integration_responses": []
+          "integration_responses": [
+            {
+              "statusCode": "method.response.statusCode",
+              "message": "method.response.body.message"
+            }
+          ]
         }
       }
     }
