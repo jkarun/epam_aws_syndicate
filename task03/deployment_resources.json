@@ -33,7 +33,7 @@
         "enable_cors": false,
         "GET": {
           "authorization_type": "AWS_IAM",
-          "integration_type": "Lambda",
+          "integration_type": "lambda",
           "lambda_name": "cmtr-134cb1e3-hello_world",
           "api_key_required": false,
           "method_request_parameters": {},
