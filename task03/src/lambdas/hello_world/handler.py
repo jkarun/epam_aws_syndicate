@@ -19,35 +19,18 @@ class HelloWorld(AbstractLambda):
         method = event.get('requestContext', {}).get('http', {}).get('method', '')
         _LOG.info(f'path: {path}')
         _LOG.info(f'method: {method}')
-
-        if path == '/hello' and method == 'GET':
-            response = {
+        response = {
+            "statusCode": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": json.dumps({
                 "statusCode": 200,
-                "headers": {
-                    "Content-Type": "application/json"
-                },
-                "body": json.dumps({
-                    "statusCode": 200,
-                    "message": "Hello from Lambda"})
-            }
-            _LOG.info('response:')
-            _LOG.info(response)
-            return response
-        else:
-            response = {
-                "statusCode": 400,
-                "headers": {
-                    "Content-Type": "application/json"
-                },
-                "body": json.dumps({
-                    "statusCode": 400,
-                    "message": f'Bad request syntax or unsupported method. Request path: {path}. HTTP method: {method}'
-                })
-            }
-            _LOG.info('response:')
-            _LOG.info(response)
-            return response
-
+                "message": "Hello from Lambda"})
+        }
+        _LOG.info('response:')
+        _LOG.info(response)
+        return response
 
 HANDLER = HelloWorld()
 
