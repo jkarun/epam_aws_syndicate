@@ -26,3 +26,10 @@ git path: `https://jkarun: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@github.com/jk
    `syndicate generate lambda --name hello_world --runtime python`
 5. Generate api gateway 
    `syndicate generate meta api_gateway  --resource_name demo-api  --deploy_stage api --minimum_compression_size 0`
+
+
+syndicate generate meta api_gateway  --resource_name task3_api --deploy_stage api
+
+syndicate generate meta api_gateway_resource --api_name task3_api --path /hello --enable_cors false 
+
+syndicate generate meta api_gateway_resource_method --api_name task3_api --path /hello --method GET --integration_type HTTP --lambda_name cmtr-134cb1e3-hello_world --authorization_type AWS_IAM --api_key_required false 

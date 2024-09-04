@@ -30,21 +30,19 @@
     "dependencies": [],
     "resources": {
       "/hello": {
-        "enable_cors": true,
+        "enable_cors": false,
         "GET": {
-          "authorization_type":"CUSTOM",
-          "integration_type": "lambda",
+          "authorization_type": "AWS_IAM",
+          "integration_type": "lamda",
           "lambda_name": "cmtr-134cb1e3-hello_world",
           "api_key_required": false,
           "method_request_parameters": {},
           "integration_request_body_template": {},
           "responses": [],
           "integration_responses": [],
-          "integration_passthrough_behavior": "WHEN_NO_TEMPLATES",
           "default_error_pattern": true
         }
       }
-    },
-    "minimum_compression_size": 0
+    }
   }
 }
