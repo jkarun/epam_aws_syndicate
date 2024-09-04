@@ -19,18 +19,18 @@ class HelloWorld(AbstractLambda):
         method = event.get('requestContext', {}).get('http', {}).get('method', '')
         _LOG.info(f'path: {path}')
         _LOG.info(f'method: {method}')
-        # response = {
-        #     "statusCode": 200,
-        #     "headers": {
-        #         "Content-Type": "application/json"
-        #     },
-        #     "body": json.dumps({
-        #         "statusCode": 200,
-        #         "message": "Hello from Lambda"})
-        # }
-        response = json.dumps({
+        response = {
+            "statusCode": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": json.dumps({
                 "statusCode": 200,
                 "message": "Hello from Lambda"})
+        }
+        # response = json.dumps({
+        #         "statusCode": 200,
+        #         "message": "Hello from Lambda"})
         _LOG.info('response:')
         _LOG.info(response)
         return response

@@ -41,6 +41,10 @@
           "lambda_name": "cmtr-134cb1e3-hello_world",
           "api_key_required": false,
           "responses": [
+            {
+              "statusCode": "method.response.statusCode",
+              "message": "method.response.body.message"
+            }
           ],
           "integration_responses": []
         }
