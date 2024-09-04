@@ -40,7 +40,8 @@
           "integration_passthrough_behavior": "WHEN_NO_TEMPLATES",
           "lambda_name": "cmtr-134cb1e3-hello_world",
           "api_key_required": false,
-          "responses": [],
+          "responses": [
+          ],
           "integration_responses": []
         }
       }
