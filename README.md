@@ -76,3 +76,4 @@ In the Lambda function code, implement the logic to print the content of the SQS
 
 Use the aws-syndicate tool to build and deploy your project, including the 'SQS Handler' Lambda and the configured SQS queue.
 
+syndicate generate meta iam_role --resource_name sqs_handler-role --principal_service lambda --predefined_policies AWSLambdaSQSQueueExecutionRole 
