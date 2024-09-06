@@ -58,7 +58,7 @@ then config aws creds
     remove alais and versioning from lambda configs and add auth type in url config
 
 
-## Commands to create sqs
+## Commands to create sqs and sns
     `syndicate generate meta sqs_queue  --resource_name async_queue`
     `syndicate generate meta sns_topic  --resource_name lambda_topic --region eu-central-1`
 

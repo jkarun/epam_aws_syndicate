@@ -13,7 +13,8 @@ class SnsHandler(AbstractLambda):
         """
         Explain incoming event here
         """
-
+        _LOG.info(event)
+        _LOG.info(context)
         return 200
     
 

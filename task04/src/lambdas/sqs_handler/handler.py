@@ -13,7 +13,8 @@ class SqsHandler(AbstractLambda):
         """
         Explain incoming event here
         """
-        # todo implement business logic
+        _LOG.info(event)
+        _LOG.info(context)
         return 200
     
 

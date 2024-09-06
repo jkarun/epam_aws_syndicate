@@ -9,7 +9,13 @@
   "timeout": 100,
   "lambda_path": "lambdas\\sns_handler",
   "dependencies": [],
-  "event_sources": [],
+  "event_sources": [
+    {
+            "resource_type": "sns_topic_trigger",
+            "target_topic": "cmtr-134cb1e3-sns_handler",
+            "region": "eu-central-1"
+        }
+  ],
   "env_variables": {},
   "publish_version": true,
   "url_config": {
