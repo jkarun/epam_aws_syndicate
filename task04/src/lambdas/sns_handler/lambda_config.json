@@ -8,11 +8,16 @@
   "memory": 128,
   "timeout": 100,
   "lambda_path": "lambdas\\sns_handler",
-  "dependencies": [],
+  "dependencies": [
+    {
+    "resource_name": "lambda_topic",
+    "resource_type": "sns_topic"
+  }
+  ],
   "event_sources": [
     {
             "resource_type": "sns_topic_trigger",
-            "target_topic": "cmtr-134cb1e3-sns_handler",
+            "target_topic": "lambda_topic",
             "region": "eu-central-1"
         }
   ],
