@@ -21,7 +21,7 @@
     }
   ],
   "env_variables": {},
-  "publish_version": true,
+  "publish_version": false,
   "url_config": {
     "auth_type": "NONE"
   },
