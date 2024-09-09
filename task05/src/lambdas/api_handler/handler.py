@@ -26,14 +26,14 @@ class ApiHandler(AbstractLambda):
         iso_format_with_ms = dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
 
         obj = {
-            'id': str(uuid.uuid1()),
+            'id': uuid.uuid1(),
             "principalId": 10,
             "createdAt": "iso_format_with_ms",
-            'body': str(event)
+            'body': event
         }
 
-        dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region'))
-        table_name = os.environ.get('table_name')
+        dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region', "eu-central-1"))
+        table_name = os.environ.get('table_name', "Events")
 
         table = dynamodb.Table(table_name)
 
