@@ -32,7 +32,7 @@ class ApiHandler(AbstractLambda):
         response = table.put_item(Item=obj)
 
         return {
-            "statusCode": 200,
+            "statusCode": 201,
             "headers": {
                 "Content-Type": "application/json"
             },
