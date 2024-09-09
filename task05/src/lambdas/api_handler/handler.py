@@ -28,10 +28,10 @@ class ApiHandler(AbstractLambda):
         obj = {
             'id': uuid.uuid1(),
             "principalId": 10,
-            "createdAt": "iso_format_with_ms",
+            "createdAt": iso_format_with_ms,
             'body': event
         }
-
+        _LOG.info(obj)
         dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region', "eu-central-1"))
         table_name = os.environ.get('table_name', "Events")
 
