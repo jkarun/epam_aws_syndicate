@@ -27,9 +27,9 @@ class ApiHandler(AbstractLambda):
 
         obj = {
             'id': str(uuid.uuid1()),
-            "principalId": 10,
+            "principalId": event.get('principalId', 1),
             "createdAt": iso_format_with_ms,
-            'body': event
+            'body': event.get('content', {})
         }
         _LOG.info(obj)
         dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region', "eu-central-1"))
