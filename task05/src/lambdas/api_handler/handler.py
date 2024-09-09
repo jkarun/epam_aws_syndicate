@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from commons.log_helper import get_logger
 from commons.abstract_lambda import AbstractLambda
 
@@ -19,9 +21,15 @@ class ApiHandler(AbstractLambda):
         Explain incoming event here
         """
         _LOG.info(event)
+        dt = datetime.now()
+        # Convert to ISO 8601 format with milliseconds (e.g., 2024-01-01T00:00:00.000Z)
+        iso_format_with_ms = dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+
         obj = {
             'id': str(uuid.uuid1()),
-            'event': str(event)
+            "principalId": 10,
+            "createdAt": "iso_format_with_ms",
+            'body': str(event)
         }
 
         dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region'))
