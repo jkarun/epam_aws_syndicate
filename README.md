@@ -1,5 +1,7 @@
-# epam_aws_syndicate
+# conda env
+   `conda activate aws_syndicate_venv`
 
+# epam_aws_syndicate
 
 token: `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`
 
@@ -33,7 +35,7 @@ git path: `https://jkarun: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@github.com/jk
       `syndicate generate meta api_gateway_resource_method --api_name task3_api --path /hello --method GET --integration_type lambda --lambda_name cmtr-134cb1e3-hello_world --authorization_type AWS_IAM --api_key_required false`
 
 
-task 4:
+## task 4:
 
 # create project
 ````syndicate generate project --name task04````
@@ -77,3 +79,44 @@ In the Lambda function code, implement the logic to print the content of the SQS
 Use the aws-syndicate tool to build and deploy your project, including the 'SQS Handler' Lambda and the configured SQS queue.
 
 syndicate generate meta iam_role --resource_name sqs_handler-role --principal_service lambda --predefined_policies AWSLambdaSQSQueueExecutionRole 
+
+
+## task05 AWS Lambda + DynamoDB Integration 
+
+This task involves deploying a Lambda function, an API Gateway, and a DynamoDB table named 'Events.' 
+The goal is to create an API endpoint that saves incoming events to the 'Events' table in DynamoDB. 
+The API must expose a /events POST resource.
+
+Resources Names
+
+Please note it is obligatory to stick to the following resources naming in order to pass the task:
+    - Lambda Function: api_handler
+
+API Gateway:
+    - API Name: task5_api
+    - Stage Name: api
+
+Resources:
+    - /events POST
+    - DynamoDB Table: Events 
+
+AWS-Syndicate aliases usage
+
+    In case of usage of AWS-syndicate aliases for deployment of the task-related resources please make sure that you are using the next key-value pair:
+    target_table: Events
+
+### task 05 commands
+    `syndicate generate project --name task05`
+    `syndicate generate lambda --name api_handler --runtime python`
+    `setx SDCT_CONF C:\Users\arun_prasath\workspace\aws_tutorial\epam_aws_syndicate\task05\.syndicate-config-dev`
+
+    Generate api gateway.
+       a. Generate gateway api and stage name
+          `syndicate generate meta api_gateway  --resource_name task5_api  --deploy_stage api --minimum_compression_size 0`
+       b. Generate gateway resource
+          `syndicate generate meta api_gateway_resource --api_name task5_api --path /events --enable_cors true`
+       c. Generate api method 
+          `syndicate generate meta api_gateway_resource_method --api_name task5_api --path /events --method POST --integration_type lambda --lambda_name api_handler --authorization_type AWS_IAM --api_key_required false`
+    
+    Create dynamo db
+        syndicate generate meta dynamodb --resource_name Events --hash_key_name Id --hash_key_type N --sort_key_name Category --sort_key_type S --read_capacity 1 --write_capacity 1 
