@@ -24,8 +24,8 @@ class ApiHandler(AbstractLambda):
             'event': str(event)
         }
 
-        dynamodb = boto3.resource('dynamodb', region_name=os.environ['region'])
-        table_name = os.environ['table_name']
+        dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region'))
+        table_name = os.environ.get('table_name')
 
         table = dynamodb.Table(table_name)
 
