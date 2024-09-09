@@ -26,7 +26,7 @@ class ApiHandler(AbstractLambda):
         iso_format_with_ms = dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
 
         obj = {
-            'id': uuid.uuid1(),
+            'id': str(uuid.uuid1()),
             "principalId": 10,
             "createdAt": iso_format_with_ms,
             'body': event
