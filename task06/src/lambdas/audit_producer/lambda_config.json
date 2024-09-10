@@ -12,14 +12,14 @@
     {
       "target_table": "${config_table}",
       "resource_type": "dynamodb_trigger",
-      "batch_size": 1,
+      "batch_size": 123,
       "function_response_types": []
     }
   ],
   "dependencies": [
     {
       "resource_name": "${config_table}",
-      "resource_type": "dynamodb_trigger"
+      "resource_type": "dynamodb_table"
     }
   ],
   "env_variables": {

@@ -6,7 +6,7 @@
       "Statement": [
         {
           "Action": [
-            "dynamodb:PutItem",
+            "dynamodb:*",
             "dynamodb:GetItem"
           ],
           "Resource": "arn:aws:dynamodb:*:*:table/*",
@@ -19,8 +19,7 @@
     "predefined_policies": [],
     "principal_service": "lambda",
     "custom_policies": [
-      "lambda-basic-execution",
-      "PutItemToDynamoPolicy"
+      "lambda-basic-execution"
     ],
     "resource_type": "iam_role"
   }
