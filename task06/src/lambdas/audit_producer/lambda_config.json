@@ -19,7 +19,7 @@
   "dependencies": [
     {
       "resource_name": "${config_table}",
-      "resource_type": "dynamodb_table"
+      "resource_type": "dynamodb_trigger"
     }
   ],
   "env_variables": {
