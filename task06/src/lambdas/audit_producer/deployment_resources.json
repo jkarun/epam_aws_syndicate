@@ -1,0 +1,27 @@
+{
+  "PutItemToDynamoPolicy": {
+    "resource_type": "iam_policy",
+    "policy_content": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Action": [
+            "dynamodb:PutItem",
+            "dynamodb:GetItem"
+          ],
+          "Resource": "arn:aws:dynamodb:*:*:table/*",
+          "Effect": "Allow"
+        }
+      ]
+    }
+  },
+  "audit_producer-role": {
+    "predefined_policies": [],
+    "principal_service": "lambda",
+    "custom_policies": [
+      "lambda-basic-execution",
+      "PutItemToDynamoPolicy"
+    ],
+    "resource_type": "iam_role"
+  }
+}

@@ -120,3 +120,29 @@ AWS-Syndicate aliases usage
     
     Create dynamo db
         syndicate generate meta dynamodb --resource_name Events --hash_key_name Id --hash_key_type N --sort_key_name Category --sort_key_type S --read_capacity 1 --write_capacity 1 
+
+## task 06
+Resources Names
+
+Please note it is obligatory to stick to the following resources naming in order to pass the task:
+
+    Lambda Function: audit_producer
+    DynamoDB Table 1: Configuration
+    DynamoDB Table 2: Audit
+
+AWS-Syndicate aliases usage
+
+    In case of usage of AWS-syndicate aliases for deployment of the task-related resources please make sure that you are using the next key-value pair:
+    target_table: Audit
+
+
+### Commands
+    project creation: 
+        syndicate generate project --name task06
+    
+    lambda:
+        syndicate generate lambda --name audit_producer --runtime python
+        
+    dynamo db:
+        syndicate generate meta dynamodb --resource_name Configuration --hash_key_name id --hash_key_type S --read_capacity 1 --write_capacity 1 
+        syndicate generate meta dynamodb --resource_name Audit --hash_key_name id --hash_key_type S --read_capacity 1 --write_capacity 1 
