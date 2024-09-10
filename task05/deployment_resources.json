@@ -32,7 +32,7 @@
       "/events": {
         "enable_cors": true,
         "POST": {
-          "authorization_type": "AWS_IAM",
+          "authorization_type": "NONE",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
           "api_key_required": false,
