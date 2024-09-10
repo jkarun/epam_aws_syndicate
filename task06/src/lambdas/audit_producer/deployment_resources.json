@@ -7,7 +7,10 @@
         {
           "Action": [
             "dynamodb:*",
-            "dynamodb:GetItem"
+            "dynamodb:DescribeStream",
+            "dynamodb:GetRecords",
+            "dynamodb:GetShardIterator",
+            "dynamodb:ListStreams"
           ],
           "Resource": "arn:aws:dynamodb:*:*:table/*",
           "Effect": "Allow"
@@ -19,7 +22,8 @@
     "predefined_policies": [],
     "principal_service": "lambda",
     "custom_policies": [
-      "lambda-basic-execution"
+      "lambda-basic-execution",
+      "PutItemToDynamoPolicy"
     ],
     "resource_type": "iam_role"
   }

@@ -12,8 +12,7 @@
     {
       "target_table": "${config_table}",
       "resource_type": "dynamodb_trigger",
-      "batch_size": 123,
-      "function_response_types": []
+      "batch_size": 5
     }
   ],
   "dependencies": [
