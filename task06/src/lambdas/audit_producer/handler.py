@@ -23,7 +23,8 @@ class AuditProducer(AbstractLambda):
         req_obj = {}
 
         if event:
-            dynamodb_obj = event.get('Records', {}).get('dynamodb', {})
+            dynamodb_obj = event.get('Records', [])
+            dynamodb_obj = dynamodb_obj[0].get('dynamodb', {})
             mod_time = dynamodb_obj.get('ApproximateCreationDateTime', None)
             if not mod_time:
                 dt = datetime.now()
@@ -53,12 +54,16 @@ class AuditProducer(AbstractLambda):
             "createdAt": iso_format_with_ms,
             'body': req_obj
         }
+        _LOG.info('put_item request object')
         _LOG.info(obj)
+
         dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region', "eu-central-1"))
         table_name = os.environ.get('table_name', "Audit")
 
         table = dynamodb.Table(table_name)
         response = table.put_item(Item=obj)
+        _LOG.info('put item response\n')
+        _LOG.info(response)
 
         return {
             "statusCode": 201,
