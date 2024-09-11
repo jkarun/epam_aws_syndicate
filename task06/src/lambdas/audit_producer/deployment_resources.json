@@ -1,12 +1,15 @@
 {
-  "PutItemToDynamoPolicy": {
+  "DynamoDBStreamPolicy": {
     "resource_type": "iam_policy",
     "policy_content": {
       "Version": "2012-10-17",
       "Statement": [
         {
           "Action": [
-            "dynamodb:*"
+            "dynamodb:GetRecords",
+            "dynamodb:GetShardIterator",
+            "dynamodb:DescribeStream",
+            "dynamodb:ListStreams"
           ],
           "Resource": "*",
           "Effect": "Allow"
@@ -18,8 +21,8 @@
     "predefined_policies": [],
     "principal_service": "lambda",
     "custom_policies": [
-      "lambda-basic-execution",
-      "PutItemToDynamoPolicy"
+      "DynamoDBStreamPolicy",
+      "lambda-basic-execution"
     ],
     "resource_type": "iam_role"
   }
