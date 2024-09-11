@@ -14,12 +14,35 @@ class AuditProducer(AbstractLambda):
 
     def validate_request(self, event) -> dict:
         pass
-        
+
     def handle_request(self, event, context):
         """
         Explain incoming event here
         """
         _LOG.info("Event:\n%s", str(event))
+        req_obj = {}
+
+        if event:
+            dynamodb_obj = event.get('Records', {}).get('dynamodb', {})
+            mod_time = dynamodb_obj.get('ApproximateCreationDateTime', None)
+            if not mod_time:
+                dt = datetime.now()
+                mod_time = dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+            else:
+                mod_time = datetime.fromtimestamp(mod_time).strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+
+            key_name = dynamodb_obj.get('NewImage', {}).get('key', {}).get('S', 'CACHE_TTL_SEC')
+            value = dynamodb_obj.get('NewImage', {}).get('value', {}).get('N', 3600)
+            req_obj = {
+                "id": str(uuid.uuid1()),
+                "itemKey": key_name,
+                "modificationTime": mod_time,
+                "newValue": {
+                    "key": key_name,
+                    "value": value
+                },
+            }
+
         dt = datetime.now()
         # Convert to ISO 8601 format with milliseconds (e.g., 2024-01-01T00:00:00.000Z)
         iso_format_with_ms = dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
@@ -28,7 +51,7 @@ class AuditProducer(AbstractLambda):
             'id': str(uuid.uuid1()),
             "principalId": event.get('principalId', 1),
             "createdAt": iso_format_with_ms,
-            'body': event.get('content', {})
+            'body': req_obj
         }
         _LOG.info(obj)
         dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region', "eu-central-1"))
@@ -44,7 +67,7 @@ class AuditProducer(AbstractLambda):
             },
             "body": json.dumps(response, indent=4)
         }
-    
+
 
 HANDLER = AuditProducer()
 

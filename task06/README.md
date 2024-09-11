@@ -1,47 +1,92 @@
-# task06
+# The Goal Of This Task is...
 
-High level project overview - business value it brings, non-detailed technical overview.
+To deploy a Lambda function triggered by a DynamoDB Stream on the 'Configuration' table. The Lambda function should track changes made to configuration items and store audit entries in the 'Audit' table.
 
-### Notice
-All the technical details described below are actual for the particular
-version, or a range of versions of the software.
-### Actual for versions: 1.0.0
+The 'Configuration' data is the following:
 
-## task06 diagram
-
-![task06](pics/task06_diagram.png)
-
-## Lambdas descriptions
-
-### Lambda `lambda-name`
-Lambda feature overview.
-
-### Required configuration
-#### Environment variables
-* environment_variable_name: description
-
-#### Trigger event
-```buildoutcfg
+```json
 {
-    "key": "value",
-    "key1": "value1",
-    "key2": "value3"
+    "key": // string, key of the configuration item
+    "value": // int
 }
 ```
-* key: [Required] description of key
-* key1: description of key1
 
-#### Expected response
-```buildoutcfg
+
+Example 1: no items stored in 'Configuration' table.
+The following item has been created:
+```json
 {
-    "status": 200,
-    "message": "Operation succeeded"
+    "key": "CACHE_TTL_SEC",
+    "value": 3600
 }
 ```
----
+After the configuration item is saved to the table the following audit item
+has been created in the 'Audit' table:
+```json
+{
+   "id": // string, uuidv4
+   "itemKey": "CACHE_TTL_SEC",
+   "modificationTime": // string, ISO8601 formatted string
+   "newValue": {
+       "key": "CACHE_TTL_SEC",
+       "value": 3600
+   },
+} 
+```
 
-## Deployment from scratch
-1. action 1 to deploy the software
-2. action 2
-...
+Example 2: the following item has been stored in the 'Configuration' table:
+```json
+{
+    "key": "CACHE_TTL_SEC",
+    "value": 3600
+} 
+```
+After the value of this configuration item has been changed
+from 3600 to 1800, the audit item has been created
+in the 'Audit' table with the following content:
+```json
+{
+   "id": // string, uuidv4
+   "itemKey": "CACHE_TTL_SEC",
+   "modificationTime": // string, ISO8601 formatted string
+   "updatedAttribute": "value",
+   "oldValue": 3600,
+   "newValue": 1800
+} 
+```
 
+
+# Configuration trigger event request:
+
+```json 
+{
+   "Records":[
+      {
+         "eventID":"97f346f54443196d55233e83d8b8f944",
+         "eventName":"INSERT",
+         "eventVersion":"1.1",
+         "eventSource":"aws:dynamodb",
+         "awsRegion":"eu-central-1",
+         "dynamodb":{
+            "ApproximateCreationDateTime":1726045348.0,
+            "Keys":{
+               "key":{
+                  "S":"CACHE_TTL_SEC"
+               }
+            },
+            "NewImage":{
+               "value":{
+                  "N":"3600"
+               },
+               "key":{
+                  "S":"CACHE_TTL_SEC"
+               }
+            },
+            "SequenceNumber":"9700002673137973216305",
+            "SizeBytes":39,
+            "StreamViewType":"NEW_AND_OLD_IMAGES"
+         },
+         "eventSourceARN":"arn:aws:dynamodb:eu-central-1:905418349556:table/cmtr-134cb1e3-Configuration-test/stream/2024-09-11T09:00:17.927"
+      }
+   ]
+}```
