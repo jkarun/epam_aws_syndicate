@@ -7,7 +7,6 @@
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
             "logs:PutLogEvents",
-            "dynamodb:*",
             "ssm:PutParameter",
             "ssm:GetParameter",
             "kms:Decrypt"

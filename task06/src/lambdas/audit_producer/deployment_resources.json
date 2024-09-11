@@ -6,11 +6,11 @@
       "Statement": [
         {
           "Action": [
-            "dynamodb:*",
-            "dynamodb:DescribeStream",
             "dynamodb:GetRecords",
             "dynamodb:GetShardIterator",
-            "dynamodb:ListStreams"
+            "dynamodb:DescribeStream",
+            "dynamodb:ListStreams",
+            "dynamodb:*"
           ],
           "Resource": "arn:aws:dynamodb:*:*:table/*",
           "Effect": "Allow"
