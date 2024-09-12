@@ -31,7 +31,8 @@ class UuidGenerator(AbstractLambda):
         }
 
         # Create a file name with the execution start time
-        file_name = f"{timestamp}.json"
+        # file_name = f"{timestamp}.json"
+        file_name = f"{timestamp}"
 
         # Initialize S3 client
         s3 = boto3.client('s3')
