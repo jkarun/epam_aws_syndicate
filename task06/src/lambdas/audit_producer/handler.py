@@ -22,75 +22,62 @@ class AuditProducer(AbstractLambda):
         _LOG.info("Event:\n%s", str(event))
         req_obj = {}
 
-        if event:
-            dynamodb_obj = event.get('Records', [])
-            dynamodb_obj = dynamodb_obj[0].get('dynamodb', {})
-            mod_time = dynamodb_obj.get('ApproximateCreationDateTime', None)
-            if not mod_time:
-                dt = datetime.now()
-                mod_time = dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
-            else:
-                mod_time = datetime.fromtimestamp(mod_time).strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+        for record in event['Records']:
+            # Check if the event is an INSERT or MODIFY
+            if record['eventName'] == 'INSERT':
+                self.handle_insert(record['dynamodb'])
+            elif record['eventName'] == 'MODIFY':
+                self.handle_modify(record['dynamodb'])
 
-            key_name = dynamodb_obj.get('NewImage', {}).get('key', {}).get('S', 'CACHE_TTL_SEC')
-            value = dynamodb_obj.get('NewImage', {}).get('value', {})
+    def handle_insert(self, dynamodb_record):
+        # Extract the new item from the event
+        _LOG.info('inside handle_insert method')
+        new_image = dynamodb_record['NewImage']
 
-            if not value:
-                new_val = dynamodb_obj.get('NewImage', {}).get('key', {})
-                if new_val and new_val.get('S', False):
-                    value = new_val.get('S')
-                else:
-                    value = value.get('N', 888)
-            else:
-                value = dynamodb_obj.get('NewImage', {}).get('key', {}).get('S', 777)
+        dynamodb = boto3.resource('dynamodb')
+        audit_table = dynamodb.Table(os.environ.get('table_name', "Audit"))
 
-            req_obj = {
-                "id": str(uuid.uuid1()),
-                "itemKey": 'CACHE_TTL_SEC',
-                "modificationTime": mod_time,
-                "newValue": {
-                    "key": 'CACHE_TTL_SEC',
-                    "value": value
-                },
+        # Create a new audit entry for the inserted itemconfiguration_table = dynamodb.Table('Configuration')
+        audit_item = {
+            'id': str(uuid.uuid4()),
+            'itemKey': new_image['key']['S'],
+            'modificationTime': datetime.utcnow().isoformat(),
+            'newValue': {
+                'key': new_image['key']['S'],
+                'value': int(new_image['value']['N'])  # Assuming the value is a number
+            }
+        }
+
+        # Save the audit entry to the Audit table
+        resp = audit_table.put_item(Item=audit_item)
+        _LOG.info(resp)
+
+
+    def handle_modify(self, dynamodb_record):
+        # Extract the old and new images from the event
+        _LOG.info('inside handle_modify method')
+
+        old_image = dynamodb_record['OldImage']
+        new_image = dynamodb_record['NewImage']
+
+        dynamodb = boto3.resource('dynamodb')
+        audit_table = dynamodb.Table(os.environ.get('table_name', "Audit"))
+
+        # Check for changes and track updated attributes
+        if old_image['value']['N'] != new_image['value']['N']:
+            audit_item = {
+                'id': str(uuid.uuid4()),
+                'itemKey': new_image['key']['S'],
+                'modificationTime': datetime.utcnow().isoformat(),
+                'updatedAttribute': 'value',
+                'oldValue': int(old_image['value']['N']),
+                'newValue': int(new_image['value']['N'])
             }
 
-        dt = datetime.now()
-        # Convert to ISO 8601 format with milliseconds (e.g., 2024-01-01T00:00:00.000Z)
-        iso_format_with_ms = dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+            # Save the audit entry to the Audit table
+            resp = audit_table.put_item(Item=audit_item)
+            _LOG.info(resp)
 
-        obj = {
-            'id': str(uuid.uuid1()),
-            # "principalId": event.get('principalId', 1),
-            "createdAt": iso_format_with_ms,
-            'body': req_obj
-        }
-        _LOG.info('put_item request object')
-        _LOG.info(obj)
-
-        dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region', "eu-central-1"))
-        table_name = os.environ.get('table_name', "Audit")
-
-        try:
-            config_table_obj = dynamodb.Table(os.environ.get('config_table', "Configuration"))
-            config_table = config_table_obj.get_item(Key={"key": {'S': '1005'}})
-            _LOG.info('config table get_item response')
-            _LOG.info(config_table)
-        except Exception as e:
-            _LOG.error('error occurred during get_item call')
-            _LOG.error(str(e))
-
-        table = dynamodb.Table(table_name)
-        response = table.put_item(Item=obj)
-        _LOG.info('put item response\n')
-        _LOG.info(response)
-
-        return {
-            "statusCode": 201,
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": json.dumps(response, indent=4)
-        }
 
 
 HANDLER = AuditProducer()
