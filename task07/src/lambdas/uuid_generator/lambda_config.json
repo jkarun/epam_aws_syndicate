@@ -19,7 +19,7 @@
   ],
   "dependencies": [
     {
-      "resource_name": "target_rule",
+      "resource_name": "uuid_trigger",
       "resource_type": "cloudwatch_rule"
     }
   ],
