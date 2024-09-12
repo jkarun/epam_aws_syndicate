@@ -1,47 +1,34 @@
-# task07
+The Goal Of This Task is...
 
-High level project overview - business value it brings, non-detailed technical overview.
+Deploy a Lambda Function, CloudWatch Rule, and S3 bucket. The application must generate 10 random UUIDs every minute and store them in the S3 bucket within a new file.
+Example:
 
-### Notice
-All the technical details described below are actual for the particular
-version, or a range of versions of the software.
-### Actual for versions: 1.0.0
+Execution at 12:02
 
-## task07 diagram
+The file with lambda execution start time created in S3 bucket with
+the following content:
 
-![task07](pics/task07_diagram.png)
+File Name: ISO time of execution start
 
-## Lambdas descriptions
+File Name Example: "2024-01-01T00:00:00.000Z"
 
-### Lambda `lambda-name`
-Lambda feature overview.
-
-### Required configuration
-#### Environment variables
-* environment_variable_name: description
-
-#### Trigger event
-```buildoutcfg
 {
-    "key": "value",
-    "key1": "value1",
-    "key2": "value3"
+    "ids": [
+        "9bae6daa-2f72-45d3-ad58-1221de19caaa",
+        ... and 9 more
+    ]
 }
-```
-* key: [Required] description of key
-* key1: description of key1
 
-#### Expected response
-```buildoutcfg
-{
-    "status": 200,
-    "message": "Operation succeeded"
-}
-```
----
+DO NOT FORGET TO CLEAN RESOURCES TO AVOID CHARGES
+Resources Names
 
-## Deployment from scratch
-1. action 1 to deploy the software
-2. action 2
-...
+Please note it is obligatory to stick to the following resources naming in order to pass the task:
 
+    Lambda Function: uuid_generator
+    CloudWatch Rule: uuid_trigger
+    S3 Bucket: uuid-storage
+
+AWS-Syndicate aliases usage
+
+    In case of usage of AWS-syndicate aliases for deployment of the task-related resources please make sure that you are using the next key-value pair:
+    target_bucket: uuid-storage
