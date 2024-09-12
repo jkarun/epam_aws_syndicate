@@ -23,7 +23,7 @@ class UuidGenerator(AbstractLambda):
         uuids = [str(uuid.uuid4()) for _ in range(10)]
 
         # Get current time in ISO 8601 format
-        timestamp = datetime.utcnow().strftime('%Y-%m-%dT00:00:00.000Z')
+        timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
 
         # Create the file content
         file_content = {
