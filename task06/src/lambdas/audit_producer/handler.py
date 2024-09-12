@@ -33,13 +33,23 @@ class AuditProducer(AbstractLambda):
                 mod_time = datetime.fromtimestamp(mod_time).strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
 
             key_name = dynamodb_obj.get('NewImage', {}).get('key', {}).get('S', 'CACHE_TTL_SEC')
-            value = dynamodb_obj.get('NewImage', {}).get('value', {}).get('N', 3600)
+            value = dynamodb_obj.get('NewImage', {}).get('value', {})
+
+            if not value:
+                new_val = dynamodb_obj.get('NewImage', {}).get('key', {})
+                if new_val and new_val.get('S', False):
+                    value = new_val.get('S')
+                else:
+                    value = value.get('N', 888)
+            else:
+                value = dynamodb_obj.get('NewImage', {}).get('key', {}).get('S', 777)
+
             req_obj = {
                 "id": str(uuid.uuid1()),
-                "itemKey": key_name,
+                "itemKey": 'CACHE_TTL_SEC',
                 "modificationTime": mod_time,
                 "newValue": {
-                    "key": key_name,
+                    "key": 'CACHE_TTL_SEC',
                     "value": value
                 },
             }
@@ -50,7 +60,7 @@ class AuditProducer(AbstractLambda):
 
         obj = {
             'id': str(uuid.uuid1()),
-            "principalId": event.get('principalId', 1),
+            # "principalId": event.get('principalId', 1),
             "createdAt": iso_format_with_ms,
             'body': req_obj
         }
@@ -59,6 +69,15 @@ class AuditProducer(AbstractLambda):
 
         dynamodb = boto3.resource('dynamodb', region_name=os.environ.get('region', "eu-central-1"))
         table_name = os.environ.get('table_name', "Audit")
+
+        try:
+            config_table_obj = dynamodb.Table(os.environ.get('config_table', "Configuration"))
+            config_table = config_table_obj.get_item(Key={"id": '1500'})
+            _LOG.info('config table get_item response')
+            _LOG.info(config_table)
+        except Exception as e:
+            _LOG.error('error occurred during get_item call')
+            _LOG.error(str(e))
 
         table = dynamodb.Table(table_name)
         response = table.put_item(Item=obj)

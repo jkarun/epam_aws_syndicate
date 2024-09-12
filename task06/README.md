@@ -89,4 +89,37 @@ in the 'Audit' table with the following content:
          "eventSourceARN":"arn:aws:dynamodb:eu-central-1:905418349556:table/cmtr-134cb1e3-Configuration-test/stream/2024-09-11T09:00:17.927"
       }
    ]
-}```
+}
+```
+
+## in new value passed 
+```json
+{
+   "Records":[
+      {
+         "eventID":"f6ea1de63b225dff958c11ce96e569bb",
+         "eventName":"INSERT",
+         "eventVersion":"1.1",
+         "eventSource":"aws:dynamodb",
+         "awsRegion":"eu-central-1",
+         "dynamodb":{
+            "ApproximateCreationDateTime":1726053994.0,
+            "Keys":{
+               "key":{
+                  "S":"1500"
+               }
+            },
+            "NewImage":{
+               "key":{
+                  "S":"1500"
+               }
+            },
+            "SequenceNumber":"8600004343766150525477",
+            "SizeBytes":14,
+            "StreamViewType":"NEW_AND_OLD_IMAGES"
+         },
+         "eventSourceARN":"arn:aws:dynamodb:eu-central-1:905418349556:table/cmtr-134cb1e3-Configuration/stream/2024-09-11T11:24:54.141"
+      }
+   ]
+}
+```

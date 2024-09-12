@@ -23,7 +23,8 @@
   ],
   "env_variables": {
     "region": "${region}",
-    "table_name": "${target_table}"
+    "table_name": "${target_table}",
+    "config_table": "${config_table}"
   },
   "publish_version": false,
   "url_config": {
