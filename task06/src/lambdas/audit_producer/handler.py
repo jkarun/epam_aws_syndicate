@@ -72,7 +72,7 @@ class AuditProducer(AbstractLambda):
 
         try:
             config_table_obj = dynamodb.Table(os.environ.get('config_table', "Configuration"))
-            config_table = config_table_obj.get_item(Key={"id": '1500'})
+            config_table = config_table_obj.get_item(Key={"key": {'S': '1005'}})
             _LOG.info('config table get_item response')
             _LOG.info(config_table)
         except Exception as e:
