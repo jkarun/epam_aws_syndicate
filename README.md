@@ -146,3 +146,26 @@ AWS-Syndicate aliases usage
     dynamo db:
         syndicate generate meta dynamodb --resource_name Configuration --hash_key_name id --hash_key_type S --read_capacity 1 --write_capacity 1 
         syndicate generate meta dynamodb --resource_name Audit --hash_key_name id --hash_key_type S --read_capacity 1 --write_capacity 1 
+
+
+
+## task07 
+
+### Resources Names
+
+    Please note it is obligatory to stick to the following resources naming in order to pass the task:
+    
+        Lambda Function: uuid_generator
+        CloudWatch Rule: uuid_trigger
+        S3 Bucket: uuid-storage
+    
+### commands of task07
+    lambda: 
+        syndicate generate lambda --name uuid_generator --runtime python
+    
+    S3 bucket:
+        syndicate generate meta s3_bucket --resource_name uuid-storage --location eu-central-1 
+
+    cloud watch rule:
+        syndicate generate meta cloudwatch_event_rule --resource_name uuid_trigger --rule_type schedule --expression "rate(10 minute)" --region eu-central-1 
+

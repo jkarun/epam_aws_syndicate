@@ -1,0 +1,24 @@
+{
+  "s3_rule": {
+    "resource_type": "iam_policy",
+    "policy_content": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "s3:PutObject",
+          "Resource": "arn:aws:s3:::uuid-storage/*"
+        }
+      ]
+    }
+  },
+  "uuid_generator-role": {
+    "predefined_policies": [],
+    "principal_service": "lambda",
+    "custom_policies": [
+      "s3_rule",
+      "lambda-basic-execution"
+    ],
+    "resource_type": "iam_role"
+  }
+}
