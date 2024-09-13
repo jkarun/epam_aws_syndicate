@@ -15,20 +15,22 @@ class ApiHandler(AbstractLambda):
         Explain incoming event here
         """
         response = {
+            'statusCode': 200,
             'headers': {
                 "Content-Type": "application/json"
-            }
+            },
+            'body': {}
         }
         try:
             weather_api = WeatherForecast()
             api_resp = weather_api.get_weather()
-            response['statusCode'] = 200
             response['body'] = api_resp
         except Exception as e:
             _LOG.error(e)
             response['statusCode'] = 500
             response['body'] = str(e)
 
+        return response
 
 HANDLER = ApiHandler()
 
