@@ -16,5 +16,8 @@
     "auth_type": "NONE"
   },
   "ephemeral_storage": 512,
-  "logs_expiration": "${logs_expiration}"
+  "logs_expiration": "${logs_expiration}",
+  "layers": [
+    "meteo_api_layer"
+  ]
 }

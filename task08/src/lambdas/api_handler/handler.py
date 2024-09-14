@@ -1,6 +1,6 @@
 from commons.log_helper import get_logger
 from commons.abstract_lambda import AbstractLambda
-from meteo_api.weather_forecast import WeatherForecast
+import requests
 
 _LOG = get_logger('ApiHandler-handler')
 
@@ -22,15 +22,26 @@ class ApiHandler(AbstractLambda):
             'body': {}
         }
         try:
-            weather_api = WeatherForecast()
-            api_resp = weather_api.get_weather()
-            response['body'] = api_resp
+            base_url = "https://api.open-meteo.com/v1/forecast"
+            latitude = 52.52
+            longitude = 13.41
+            params = {
+                'latitude': latitude,
+                'longitude': longitude,
+                'current_weather': 'true',
+                'hourly': 'temperature_2m,relative_humidity_2m,wind_speed_10m'
+            }
+            api_response = requests.get(base_url, params=params)
+            api_response.raise_for_status()  # Check for HTTP request errors
+            data = api_response.json()
+            response['body'] = data
         except Exception as e:
             _LOG.error(e)
             response['statusCode'] = 500
             response['body'] = str(e)
 
         return response
+
 
 HANDLER = ApiHandler()
 
