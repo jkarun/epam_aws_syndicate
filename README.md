@@ -169,3 +169,7 @@ AWS-Syndicate aliases usage
     cloud watch rule:
         syndicate generate meta cloudwatch_event_rule --resource_name uuid_trigger --rule_type schedule --expression "rate(10 minute)" --region eu-central-1 
 
+
+## task08 lambda with layers
+    command to create layer
+         syndicate generate lambda_layer --name "meteo_api_layer" --runtime "python" --link_with_lambda "api_handler"
