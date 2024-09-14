@@ -58,10 +58,9 @@ class Processor(AbstractLambda):
 
         db_item = {
             'id': str(uuid.uuid4()),
-            'forecast': dynamodb_record
+            'forecast': self.convert_float_to_decimal(dynamodb_record)
         }
         try:
-            dynamodb_record = self.convert_float_to_decimal(dynamodb_record)
             _LOG.info('performing insert...')
             resp = db_table.put_item(Item=db_item)
             _LOG.info(resp)
