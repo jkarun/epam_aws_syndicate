@@ -1,7 +1,9 @@
 from commons.log_helper import get_logger
 from commons.abstract_lambda import AbstractLambda
+from decimal import Decimal
 
 import requests
+
 _LOG = get_logger('Processor-handler')
 
 import json
@@ -10,11 +12,12 @@ import uuid
 import boto3
 from datetime import datetime
 
+
 class Processor(AbstractLambda):
 
     def validate_request(self, event) -> dict:
         pass
-        
+
     def handle_request(self, event, context):
         """
         Explain incoming event here
@@ -47,7 +50,6 @@ class Processor(AbstractLambda):
             response['body'] = str(e)
         return response
 
-
     def handle_insert(self, dynamodb_record):
         _LOG.info('inside handle_insert method')
 
@@ -58,8 +60,24 @@ class Processor(AbstractLambda):
             'id': str(uuid.uuid4()),
             'forecast': dynamodb_record
         }
-        resp = db_table.put_item(Item=db_item)
-        _LOG.info(resp)
+        try:
+            dynamodb_record = self.convert_float_to_decimal(dynamodb_record)
+            _LOG.info('performing insert...')
+            resp = db_table.put_item(Item=db_item)
+            _LOG.info(resp)
+        except Exception as e:
+            _LOG.error('error in db insert action')
+            _LOG.error(e)
+
+    def convert_float_to_decimal(self, data):
+        """Recursively converts float values to Decimal."""
+        if isinstance(data, list):
+            return [self.convert_float_to_decimal(item) for item in data]
+        elif isinstance(data, dict):
+            return {k: self.convert_float_to_decimal(v) for k, v in data.items()}
+        elif isinstance(data, float):
+            return Decimal(str(data))
+        return data
 
 
 HANDLER = Processor()
