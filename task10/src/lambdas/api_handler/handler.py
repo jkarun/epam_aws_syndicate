@@ -224,7 +224,8 @@ class ApiHandler(AbstractLambda):
         try:
             # Step 1: Check if the table exists in the Tables table
             table_check_response = self.tables_table.scan(
-                FilterExpression="number = :table_number",
+                FilterExpression="#num = :table_number",
+                ExpressionAttributeNames={"#num": "number"},  # Use an alias for the reserved keyword
                 ExpressionAttributeValues={":table_number": table_number}
             )
 
@@ -238,7 +239,11 @@ class ApiHandler(AbstractLambda):
 
             # Step 2: Check for existing reservations on the same table and date
             existing_reservations = self.reservations_table.scan(
-                FilterExpression="tableNumber = :table_number AND date = :date",
+                FilterExpression="#num = :table_number AND #date = :date",
+                ExpressionAttributeNames={
+                    "#num": "tableNumber",  # Alias for tableNumber
+                    "#date": "date"  # Alias for date
+                },
                 ExpressionAttributeValues={
                     ":table_number": table_number,
                     ":date": date
