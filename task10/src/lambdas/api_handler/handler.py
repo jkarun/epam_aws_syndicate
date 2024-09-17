@@ -235,7 +235,7 @@ class ApiHandler(AbstractLambda):
             )
             return {
                 'statusCode': 200,
-                'body': json.dumps({'id': reservation_id})  # Return 'id' in response
+                'body': json.dumps({'reservationId': reservation_id})  # Return 'id' in response
             }
         except Exception as e:
             return {
