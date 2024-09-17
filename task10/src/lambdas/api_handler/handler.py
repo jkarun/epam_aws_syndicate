@@ -224,8 +224,8 @@ class ApiHandler(AbstractLambda):
         try:
             # Step 1: Check if the table exists in the Tables table
             table_check_response = self.tables_table.scan(
-                FilterExpression="#num = :table_number",
-                ExpressionAttributeNames={"#num": "number"},  # Use an alias for the reserved keyword
+                FilterExpression="#n = :table_number",
+                ExpressionAttributeNames={"#n": "number"},  # Alias for reserved keyword 'number'
                 ExpressionAttributeValues={":table_number": table_number}
             )
 
@@ -239,10 +239,10 @@ class ApiHandler(AbstractLambda):
 
             # Step 2: Check for existing reservations on the same table and date
             existing_reservations = self.reservations_table.scan(
-                FilterExpression="#num = :table_number AND #date = :date",
+                FilterExpression="#tn = :table_number AND #d = :date",
                 ExpressionAttributeNames={
-                    "#num": "tableNumber",  # Alias for tableNumber
-                    "#date": "date"  # Alias for date
+                    "#tn": "tableNumber",  # Alias for 'tableNumber'
+                    "#d": "date"  # Alias for 'date'
                 },
                 ExpressionAttributeValues={
                     ":table_number": table_number,
@@ -255,7 +255,6 @@ class ApiHandler(AbstractLambda):
                 existing_start = reservation['slotTimeStart']
                 existing_end = reservation['slotTimeEnd']
 
-                # Time overlap condition
                 if (slot_time_start < existing_end and slot_time_end > existing_start):
                     return {
                         'statusCode': 400,
