@@ -266,7 +266,7 @@ class ApiHandler(AbstractLambda):
             # Step 4: Create the reservation if no conflicts
             self.reservations_table.put_item(
                 Item={
-                    'reservationId': reservation_id,
+                    'id': reservation_id,
                     'tableNumber': table_number,
                     'clientName': client_name,
                     'phoneNumber': phone_number,
