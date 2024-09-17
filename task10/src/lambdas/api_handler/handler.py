@@ -95,14 +95,6 @@ class ApiHandler(AbstractLambda):
                 ClientId=os.environ.get('cup_client_id'),
                 AuthFlow='ADMIN_NO_SRP_AUTH', AuthParameters=auth_params)
 
-            # response = self.cognito.initiate_auth(
-            #     AuthFlow='USER_PASSWORD_AUTH',
-            #     ClientId=self.client_id,
-            #     AuthParameters={
-            #         'USERNAME': email,
-            #         'PASSWORD': password
-            #     }
-            # )
             _LOG.info(f'authentication response:\n{str(response)}')
 
             new_password = None
@@ -195,7 +187,12 @@ class ApiHandler(AbstractLambda):
 
     def get_table_by_id(self, table_id):
         try:
-            response = self.tables_table.get_item(Key={'id': table_id})
+            _LOG.info(f'get_table_by_id: {table_id} type of {type(table_id)}')
+            response = self.tables_table.get_item(
+                Key={
+                    'id': int(table_id)
+                }
+            )
             _LOG.info(f'get table by id response:\n{response}')
             if 'Item' in response:
                 return {
