@@ -219,12 +219,50 @@ class ApiHandler(AbstractLambda):
         date = body.get('date')
         slot_time_start = body.get('slotTimeStart')
         slot_time_end = body.get('slotTimeEnd')
-        reservation_id = str(uuid.uuid4())  # This will be the 'id'
+        reservation_id = str(uuid.uuid4())
 
         try:
+            # Step 1: Check if the table exists in the Tables table
+            table_check_response = self.tables_table.scan(
+                FilterExpression="number = :table_number",
+                ExpressionAttributeValues={":table_number": table_number}
+            )
+
+            if not table_check_response['Items']:
+                return {
+                    'statusCode': 400,
+                    'body': json.dumps({
+                        'message': f'Table with number {table_number} does not exist.'
+                    })
+                }
+
+            # Step 2: Check for existing reservations on the same table and date
+            existing_reservations = self.reservations_table.scan(
+                FilterExpression="tableNumber = :table_number AND date = :date",
+                ExpressionAttributeValues={
+                    ":table_number": table_number,
+                    ":date": date
+                }
+            )
+
+            # Step 3: Validate if the time slot overlaps with any existing reservations
+            for reservation in existing_reservations['Items']:
+                existing_start = reservation['slotTimeStart']
+                existing_end = reservation['slotTimeEnd']
+
+                # Time overlap condition
+                if (slot_time_start < existing_end and slot_time_end > existing_start):
+                    return {
+                        'statusCode': 400,
+                        'body': json.dumps({
+                            'message': 'Time conflict: The table is already reserved for this time slot.'
+                        })
+                    }
+
+            # Step 4: Create the reservation if no conflicts
             self.reservations_table.put_item(
                 Item={
-                    'id': reservation_id,
+                    'reservationId': reservation_id,
                     'tableNumber': table_number,
                     'clientName': client_name,
                     'phoneNumber': phone_number,
@@ -235,8 +273,9 @@ class ApiHandler(AbstractLambda):
             )
             return {
                 'statusCode': 200,
-                'body': json.dumps({'reservationId': reservation_id})  # Return 'id' in response
+                'body': json.dumps({'reservationId': reservation_id})
             }
+
         except Exception as e:
             return {
                 'statusCode': 400,
