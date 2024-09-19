@@ -142,3 +142,7 @@ Step 12: Access Swagger UI
     - Check if every API Endpoint (resources & methods) is carefully described.
     - Ensure that request & response models, authentication, and possible errors are documented accurately.
 
+
+
+
+syndicate generate swagger_ui --name task11_api_ui --path_to_spec export/q3vn5ox60i_oas_v3.json --target_bucket api-ui-hoster

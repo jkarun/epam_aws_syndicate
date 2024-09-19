@@ -7,6 +7,7 @@ import boto3
 import json
 import uuid
 import os
+import re
 import random
 from decimal import Decimal
 
@@ -30,12 +31,37 @@ class ApiHandler(AbstractLambda):
         self.tables_table = self.dynamodb.Table(os.environ.get('tables', "test1"))
         self.reservations_table = self.dynamodb.Table(os.environ.get('reservations', "test2"))
 
+    def is_valid_email(self, email):
+        # Regex pattern for validating email
+        email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        return re.match(email_regex, email)
+
+    def is_valid_password(self, password):
+        # Password must contain alphanumeric characters and at least one of $%^*, minimum length 12
+        password_regex = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$%^*])[A-Za-z\d$%^*]{12,}$'
+        return re.match(password_regex, password)
+
     def signup(self, event):
         body = json.loads(event['body'])
         first_name = body.get('firstName')
         last_name = body.get('lastName')
         email = body.get('email')
         password = body.get('password')
+
+        # Validate email and password
+        if not self.is_valid_email(email):
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'message': 'Invalid email format'}),
+                "isBase64Encoded": True
+            }
+
+        if not self.is_valid_password(password):
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'message': 'Password does not meet the required criteria'}),
+                "isBase64Encoded": True
+            }
 
         try:
             response = self.cognito_client.sign_up(
@@ -67,11 +93,13 @@ class ApiHandler(AbstractLambda):
                 )
                 _LOG.info(f'confirm api response:\n{str(confirm_resp)}')
                 response['UserConfirmed'] = True
+
             return {
                 'statusCode': 200,
                 'body': json.dumps({'message': 'Sign-up process is successful', 'body': response}),
                 "isBase64Encoded": True
             }
+
         except Exception as e:
             return {
                 'statusCode': 400,
@@ -310,22 +338,23 @@ class ApiHandler(AbstractLambda):
         Explain incoming event here
         """
         _LOG.info(f'event:\n{str(event)}')
-        route_key = f"{event['httpMethod']} {event['resource']}"  # Determine the route based on HTTP method and path
+        http_obj = event['requestContext']['http']
+        route_key = f"{http_obj['method']} {http_obj['path']}"  # Determine the route based on HTTP method and path
 
-        if route_key == 'POST /signup':
+        if route_key == 'POST /api/signup':
             return self.signup(event)
-        elif route_key == 'POST /signin':
+        elif route_key == 'POST /api/signin':
             return self.signin(event)
-        elif route_key == 'GET /tables':
+        elif route_key == 'GET /api/tables':
             return self.get_tables(event)
-        elif route_key == 'POST /tables':
+        elif route_key == 'POST /api/tables':
             return self.create_table(event)
-        elif route_key == 'GET /tables/{tableId}':
+        elif route_key == 'GET /api/tables/{tableId}':
             table_id = event['pathParameters']['tableId']
             return self.get_table_by_id(table_id)
-        elif route_key == 'POST /reservations':
+        elif route_key == 'POST /api/reservations':
             return self.create_reservation(event)
-        elif route_key == 'GET /reservations':
+        elif route_key == 'GET /api/reservations':
             return self.get_reservations(event)
         else:
             return {
