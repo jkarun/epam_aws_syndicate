@@ -15,13 +15,35 @@
     }
   ],
   "paths": {
-    "/reservations": {
-      "get": {
+    "/signup": {
+      "post": {
+        "summary": "User Sign-up",
+        "description": "Endpoint for user sign-up.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "200 response",
             "headers": {
               "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
                 "schema": {
                   "type": "string"
                 }
@@ -31,6 +53,521 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupSuccessResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    },
+    "/signin": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Sign-in successful. Returns access token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SigninSuccessResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy"
+        },
+        "summary": "User Sign-in",
+        "description": "This endpoint allows users to sign in by providing their email and password.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SigninRequest"
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    },
+    "/reservations": {
+      "get": {
+        "summary": "list reserved tables",
+        "description": "This endpoint allows users to get reserved table details.",
+        "requestBody":{
+               "required":true,
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/ReservationRequest"
+                     }
+                  }
+               }
+            },
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
                 }
               }
             }
@@ -57,20 +594,169 @@
         }
       },
       "post": {
+        "summary":"Create a new reservation",
+        "description":"Make a new reservation at the restaurant.",
+                    "parameters":[
+               {
+                  "name":"Authorization",
+                  "in":"header",
+                  "required":true,
+                  "schema":{
+                     "type":"string"
+                  }
+               }
+            ],
+            "requestBody":{
+               "required":true,
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/ReservationRequest"
+                     }
+                  }
+               }
+            },
         "responses": {
           "200": {
             "description": "200 response",
             "headers": {
               "Access-Control-Allow-Origin": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
                 }
               }
             },
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/ReservationResponse"
+                }
+              }
+            }
+          },
+                    "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
                 }
               }
             }
@@ -103,17 +789,26 @@
             "headers": {
               "Access-Control-Allow-Origin": {
                 "schema": {
-                  "type": "string"
-                }
-              },
-              "Access-Control-Allow-Methods": {
-                "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "*"
                 }
               },
               "Access-Control-Allow-Headers": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
                 }
               }
             },
@@ -147,13 +842,203 @@
     },
     "/tables": {
       "get": {
+         "summary": "list table details",
+        "description": "Endpoint to list table details.",
         "responses": {
           "200": {
             "description": "200 response",
             "headers": {
               "Access-Control-Allow-Origin": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "authorizer": []
+          }
+        ],
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy"
+        }
+      },
+      "post": {
+        "summary": "add table details",
+        "description": "Endpoint to add new table reservation.",
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
                 }
               }
             },
@@ -186,46 +1071,6 @@
           "type": "aws_proxy"
         }
       },
-      "post": {
-        "responses": {
-          "200": {
-            "description": "200 response",
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empty"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "authorizer": []
-          }
-        ],
-        "x-amazon-apigateway-integration": {
-          "httpMethod": "POST",
-          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
-          "responses": {
-            "default": {
-              "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
-            }
-          },
-          "passthroughBehavior": "when_no_match",
-          "type": "aws_proxy"
-        }
-      },
       "options": {
         "responses": {
           "200": {
@@ -233,187 +1078,26 @@
             "headers": {
               "Access-Control-Allow-Origin": {
                 "schema": {
-                  "type": "string"
-                }
-              },
-              "Access-Control-Allow-Methods": {
-                "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "*"
                 }
               },
               "Access-Control-Allow-Headers": {
                 "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empty"
-                }
-              }
-            }
-          }
-        },
-        "x-amazon-apigateway-integration": {
-          "responses": {
-            "default": {
-              "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Methods": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
-            }
-          },
-          "requestTemplates": {
-            "application/json": "{\"statusCode\": 200}"
-          },
-          "passthroughBehavior": "when_no_match",
-          "type": "mock"
-        }
-      }
-    },
-    "/signin": {
-      "post": {
-        "responses": {
-          "200": {
-            "description": "200 response",
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empty"
-                }
-              }
-            }
-          }
-        },
-        "x-amazon-apigateway-integration": {
-          "httpMethod": "POST",
-          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
-          "responses": {
-            "default": {
-              "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
-            }
-          },
-          "passthroughBehavior": "when_no_match",
-          "type": "aws_proxy"
-        }
-      },
-      "options": {
-        "responses": {
-          "200": {
-            "description": "200 response",
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
                 }
               },
               "Access-Control-Allow-Methods": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "*"
                 }
               },
-              "Access-Control-Allow-Headers": {
+              "Accept-Version": {
                 "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empty"
-                }
-              }
-            }
-          }
-        },
-        "x-amazon-apigateway-integration": {
-          "responses": {
-            "default": {
-              "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Methods": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
-            }
-          },
-          "requestTemplates": {
-            "application/json": "{\"statusCode\": 200}"
-          },
-          "passthroughBehavior": "when_no_match",
-          "type": "mock"
-        }
-      }
-    },
-    "/signup": {
-      "post": {
-        "responses": {
-          "200": {
-            "description": "200 response",
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empty"
-                }
-              }
-            }
-          }
-        },
-        "x-amazon-apigateway-integration": {
-          "httpMethod": "POST",
-          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
-          "responses": {
-            "default": {
-              "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
-            }
-          },
-          "passthroughBehavior": "when_no_match",
-          "type": "aws_proxy"
-        }
-      },
-      "options": {
-        "responses": {
-          "200": {
-            "description": "200 response",
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "Access-Control-Allow-Methods": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "Access-Control-Allow-Headers": {
-                "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "*"
                 }
               }
             },
@@ -447,6 +1131,8 @@
     },
     "/tables/{tableId}": {
       "get": {
+        "summary": "get reserved table details",
+        "description": "Endpoint to get reserved table details.",
         "parameters": [
           {
             "name": "tableId",
@@ -463,14 +1149,141 @@
             "headers": {
               "Access-Control-Allow-Origin": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
                 }
               }
             },
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/TablesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
                 }
               }
             }
@@ -513,17 +1326,26 @@
             "headers": {
               "Access-Control-Allow-Origin": {
                 "schema": {
-                  "type": "string"
-                }
-              },
-              "Access-Control-Allow-Methods": {
-                "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "*"
                 }
               },
               "Access-Control-Allow-Headers": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
+                }
+              },
+              "Accept-Version": {
+                "schema": {
+                  "type": "string",
+                  "example": "*"
                 }
               }
             },
@@ -561,6 +1383,88 @@
       "Empty": {
         "title": "Empty Schema",
         "type": "object"
+      },
+      "SignupRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "pattern": "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$%^*])[A-Za-z\\d$%^*]{12,}$"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "email",
+          "password"
+        ]
+      },
+      "SigninRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "pattern": "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$%^*])[A-Za-z\\d$%^*]{12,}$"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "SignupSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Sign-up process is successful"
+          }
+        }
+      },
+      "SigninSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "example": "eyJraWQiOiJr..."
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Error code."
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message."
+          }
+        }
+      },
+      "InternalServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "An internal server error occurred. Please try again later."
+          }
+        }
       }
     },
     "securitySchemes": {

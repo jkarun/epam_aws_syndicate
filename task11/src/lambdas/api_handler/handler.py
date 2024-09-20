@@ -352,13 +352,13 @@ class ApiHandler(AbstractLambda):
             }
         else:
             # Ensure CORS headers are included even in non-200 responses
-            response.setdefault('headers', {
+            response['headers'] = {
                 "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "*",
                 "Accept-Version": "*",
                 'Content-Type': 'application/json'
-            })
+            }
         return response
 
 HANDLER = ApiHandler()
