@@ -30,12 +30,37 @@ class ApiHandler(AbstractLambda):
         self.tables_table = self.dynamodb.Table(os.environ.get('tables', "test1"))
         self.reservations_table = self.dynamodb.Table(os.environ.get('reservations', "test2"))
 
+    def is_valid_email(self, email):
+        # Regex pattern for validating email
+        email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        return re.match(email_regex, email)
+
+    def is_valid_password(self, password):
+        # Password must contain alphanumeric characters and at least one of $%^*, minimum length 12
+        password_regex = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$%^*])[A-Za-z\d$%^*]{12,}$'
+        return re.match(password_regex, password)
+
     def signup(self, event):
         body = json.loads(event['body'])
         first_name = body.get('firstName')
         last_name = body.get('lastName')
         email = body.get('email')
         password = body.get('password')
+
+        # Validate email and password
+        if not self.is_valid_email(email):
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'message': 'Invalid email format'}),
+                "isBase64Encoded": True
+            }
+
+        if not self.is_valid_password(password):
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'message': 'Password does not meet the required criteria'}),
+                "isBase64Encoded": True
+            }
 
         try:
             response = self.cognito_client.sign_up(
@@ -67,11 +92,13 @@ class ApiHandler(AbstractLambda):
                 )
                 _LOG.info(f'confirm api response:\n{str(confirm_resp)}')
                 response['UserConfirmed'] = True
+
             return {
                 'statusCode': 200,
                 'body': json.dumps({'message': 'Sign-up process is successful', 'body': response}),
                 "isBase64Encoded": True
             }
+
         except Exception as e:
             return {
                 'statusCode': 400,
@@ -360,6 +387,7 @@ class ApiHandler(AbstractLambda):
                 'Content-Type': 'application/json'
             }
         return response
+
 
 HANDLER = ApiHandler()
 
