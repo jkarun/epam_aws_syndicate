@@ -155,6 +155,13 @@ class ApiHandler(AbstractLambda):
                 'body': json.dumps({'accessToken': access_token, 'new_password': new_password}),
                 "isBase64Encoded": True
             }
+        except self.cognito.exceptions.UserNotFoundException:
+            _LOG.error('User not found')
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'message': 'User not found'}),
+                "isBase64Encoded": True
+            }
         except Exception as e:
             _LOG.error('error in signin...')
             _LOG.error(e)
@@ -167,7 +174,7 @@ class ApiHandler(AbstractLambda):
     def get_tables(self, event):
         try:
             response = self.tables_table.scan()
-            _LOG.info(f'scan table resposne:\n{response}')
+            _LOG.info(f'scan table response:\n{response}')
             return {
                 'statusCode': 200,
                 'body': json.dumps({'tables': response['Items']}, cls=DecimalEncoder)
@@ -375,7 +382,7 @@ class ApiHandler(AbstractLambda):
             "Access-Control-Allow-Methods": "*",
             "Accept-Version": "*"
         },
-
+        _LOG.info(f'lambda output event:\n{str(response)}')
         return response
 
 
