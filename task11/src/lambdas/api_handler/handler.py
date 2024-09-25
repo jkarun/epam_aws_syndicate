@@ -56,12 +56,12 @@ class ApiHandler(AbstractLambda):
                 "isBase64Encoded": True
             }
 
-        if not self.is_valid_password(password):
-            return {
-                'statusCode': 400,
-                'body': json.dumps({'message': 'Password does not meet the required criteria'}),
-                "isBase64Encoded": True
-            }
+        # if not self.is_valid_password(password):
+        #     return {
+        #         'statusCode': 400,
+        #         'body': json.dumps({'message': 'Password does not meet the required criteria'}),
+        #         "isBase64Encoded": True
+        #     }
 
         try:
             response = self.cognito_client.sign_up(
@@ -345,6 +345,8 @@ class ApiHandler(AbstractLambda):
         Explain incoming event here
         """
         _LOG.info(f'lambda input event:\n{str(event)}')
+        if event.get('body', False):
+            _LOG.info(f'request body:\n{event["body"]}')
         route_key = f"{event['httpMethod']} {event['resource']}"
         response = {}
 
