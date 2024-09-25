@@ -9,6 +9,7 @@ import uuid
 import os
 import random
 from decimal import Decimal
+import re
 
 
 # Custom encoder for Decimal objects
