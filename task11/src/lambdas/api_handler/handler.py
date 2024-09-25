@@ -368,20 +368,19 @@ class ApiHandler(AbstractLambda):
                 'statusCode': 400,
                 'body': json.dumps({'message': 'Invalid route'}),
                 'headers': {
-                    "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "*",
-                    "Accept-Version": "*",
-                    'Content-Type': 'application/json'
+                    'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': '*',
+                    'Accept-Version': '*'
                 }
             }
 
         response['headers'] = {
-            "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "*",
-            "Accept-Version": "*"
-        },
+            'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': '*',
+            'Accept-Version': '*'
+        }
         _LOG.info(f'lambda output event:\n{str(response)}')
         return response
 
