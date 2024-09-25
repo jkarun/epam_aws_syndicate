@@ -38,7 +38,7 @@ class ApiHandler(AbstractLambda):
 
     def is_valid_password(self, password):
         # Password must contain alphanumeric characters and at least one of $%^*, minimum length 12
-        password_regex = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$%^*])[A-Za-z\d$%^*]{12,}$'
+        password_regex = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$%^*])[A-Za-z\d@$%^*]{12,}$'
         return re.match(password_regex, password)
 
     def signup(self, event):
