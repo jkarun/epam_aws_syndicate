@@ -1215,7 +1215,7 @@
           },
           "password": {
             "type": "string",
-            "pattern": "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$%^*])[A-Za-z\\d$%^*]{12,}$"
+            "pattern": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d$%^*]{12,}$\n"
           }
         },
         "required": [
