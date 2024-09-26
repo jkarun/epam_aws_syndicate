@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "f6b9db78-5bb0-495c-b231-e5530c39a2ee",
+		"name": "epam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3294311"
+	},
+	"item": [
+		{
+			"name": "task10",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"test fn\",\r\n    \"lastName\": \"test ln\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"isBase64Encoded\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apigw_url}}/signup",
+							"host": [
+								"{{apigw_url}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"isBase64Encoded\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apigw_url}}/signin",
+							"host": [
+								"{{apigw_url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list tables",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{apigw_url}}/tables",
+							"host": [
+								"{{apigw_url}}"
+							],
+							"path": [
+								"tables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add table",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 123,\r\n    \"number\": 1,\r\n    \"places\": 1,\r\n    \"isVip\": true,\r\n    \"minOrder\": 10,\r\n    \"isBase64Encoded\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apigw_url}}/tables",
+							"host": [
+								"{{apigw_url}}"
+							],
+							"path": [
+								"tables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get table by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apigw_url}}/tables/{{table_id}}",
+							"host": [
+								"{{apigw_url}}"
+							],
+							"path": [
+								"tables",
+								"{{table_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reserve table",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tableNumber\": 2,\r\n    \"clientName\": \"test\",\r\n    \"phoneNumber\": \"1234567890\",\r\n    \"date\": \"2024-07-15\",\r\n    \"slotTimeStart\": \"13:00\",\r\n    \"slotTimeEnd\": \"15:00\",\r\n    \"isBase64Encoded\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apigw_url}}/reservations",
+							"host": [
+								"{{apigw_url}}"
+							],
+							"path": [
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list reservations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apigw_url}}/reservations",
+							"host": [
+								"{{apigw_url}}"
+							],
+							"path": [
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
