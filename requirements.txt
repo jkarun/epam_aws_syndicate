@@ -1,0 +1,1 @@
+aws-syndicate==1.14.0
